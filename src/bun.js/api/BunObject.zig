@@ -1331,16 +1331,6 @@ pub fn getUnsafe(globalThis: *JSC.JSGlobalObject, _: *JSC.JSObject) JSC.JSValue 
     return UnsafeObject.create(globalThis);
 }
 
-pub const HashObject = @import("./HashObject.zig");
-pub const UnsafeObject = @import("./UnsafeObject.zig");
-pub const TOMLObject = @import("./TOMLObject.zig");
-pub const CSVObject = @import("./CSVObject.zig");
-
-const Debugger = JSC.Debugger;
-
-pub const Timer = @import("./Timer.zig");
-pub const FFIObject = @import("./FFIObject.zig");
-
 pub fn stringWidth(str: bun.String, opts: gen.StringWidthOptions) usize {
     if (str.length() == 0)
         return 0;
@@ -1836,5 +1826,6 @@ const Debugger = JSC.Debugger;
 const HashObject = bun.api.HashObject;
 const UnsafeObject = bun.api.UnsafeObject;
 const TOMLObject = bun.api.TOMLObject;
+const CSVObject = bun.api.CSVObject;
 const Timer = bun.api.Timer;
 const FFIObject = bun.api.FFIObject;
