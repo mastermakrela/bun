@@ -832,7 +832,7 @@ pub fn transpileSourceCode(
     const disable_transpilying = comptime flags.disableTranspiling();
 
     if (comptime disable_transpilying) {
-        if (!(loader.isJavaScriptLike() or loader == .toml or loader == .text or loader == .json or loader == .jsonc)) {
+        if (!(loader.isJavaScriptLike() or loader == .toml or loader == .text or loader == .json or loader == .jsonc or loader.isCSVLike())) {
             // Don't print "export default <file path>"
             return ResolvedSource{
                 .allocator = null,
@@ -844,7 +844,7 @@ pub fn transpileSourceCode(
     }
 
     switch (loader) {
-        .js, .jsx, .ts, .tsx, .json, .jsonc, .toml, .text => {
+        .js, .jsx, .ts, .tsx, .json, .jsonc, .toml, .text, .csv, .csv_no_header, .tsv, .tsv_no_header => {
             jsc_vm.transpiled_count += 1;
             jsc_vm.transpiler.resetStore();
             const hash = bun.Watcher.getHash(path.text);
@@ -1086,7 +1086,7 @@ pub fn transpileSourceCode(
                 };
             }
 
-            if (loader == .json or loader == .jsonc or loader == .toml) {
+            if (loader == .json or loader == .jsonc or loader == .toml or loader.isCSVLike()) {
                 if (parse_result.empty) {
                     return ResolvedSource{
                         .allocator = null,
